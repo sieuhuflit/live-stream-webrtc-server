@@ -211,8 +211,6 @@ function logError(error) {
   console.log('logError', error);
 }
 
-//------------------------------------------------------------------------------
-// Services
 function getRoomList(callback) {
   socket.emit('list-server', {}, data => {
     console.log('Get list: ', data);

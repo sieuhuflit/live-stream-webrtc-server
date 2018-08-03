@@ -69,8 +69,6 @@ server.listen(serverPort, function() {
   }
 });
 
-//------------------------------------------------------------------------------
-//  WebRTC Signaling
 function socketIdsInRoom(roomId) {
   var socketIds = io.nsps['/'].adapter.rooms[roomId];
   if (socketIds) {
@@ -84,9 +82,6 @@ function socketIdsInRoom(roomId) {
   }
 }
 
-/*************************************************
- * Find participant by socket id. Return index of array if input has roomId and resIndex = true
- */
 function findParticipant(socketId) {
   for (let roomId in roomList) {
     for (let i = 0; i < roomList[roomId].participant.length; i++) {
@@ -102,15 +97,6 @@ function findParticipant(socketId) {
   return null;
 }
 
-/**
- {
-     id:
-     name:
-     token: to detect owner
- }
- * @param room
- * @param error
- */
 function createNewRoom(room, error) {
   if (roomList.hasOwnProperty(room.id)) {
     if (error) error('Room already used.');
@@ -156,9 +142,6 @@ io.on('connection', function(socket) {
     }
   });
 
-  /**
-   * Callback: list of {socketId, displayName: name of user}
-   */
   socket.on('join-server', function(joinData, callback) {
     console.log('join-server ', joinData);
     //Join room
@@ -206,6 +189,32 @@ io.on('connection', function(socket) {
     });
   });
 
+  socket.on('send-message', (data, callback) => {
+    const roomId = data.roomId;
+    const displayName = data.displayName;
+    const message = data.message;
+    var socketIds = socketIdsInRoom(roomId);
+    let friends = socketIds
+      .map(socketId => {
+        let room = findParticipant(socketId);
+        return {
+          socketId: socketId,
+          displayName: room === null ? null : room.displayName
+        };
+      })
+      .filter(friend => friend.socketId != socket.id);
+    friends.forEach(friend => {
+      io.sockets.connected[friend.socketId].emit('send-message', {
+        displayName,
+        message
+      });
+    });
+    callback({
+      displayName,
+      message
+    });
+  });
+
   socket.on('exchange-server', function(data) {
     console.log('exchange', data);
     data.from = socket.id;
@@ -229,19 +238,6 @@ io.on('connection', function(socket) {
   });
 
   socket.on('template-server', function(request, error) {
-    /*************************************************
-     * request{
-     *  action: 'put' or 'get'
-     *  template: {
-     *      id
-     *      roomId
-     *      config: {
-     *          background:
-     *          }
-     *      }
-     * }
-     */
-
     try {
       let action = request.action;
       let template = request.template;

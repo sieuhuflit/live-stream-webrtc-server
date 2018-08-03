@@ -2,7 +2,7 @@
 
 The client: https://github.com/sieuhuflit/react-native-live-stream-webrtc-example
 
-Demo page: http://live-stream-webrtc-server.herokuapp.com
+Demo page: https://live-stream-webrtc-server.herokuapp.com
 
 # Get started
 
