@@ -1,4 +1,4 @@
-# nc-rcn-webrtc-server
+# live-stream-webrtc-server
 
 The client: https://github.com/sieuhuflit/react-native-live-stream-webrtc-example
 
