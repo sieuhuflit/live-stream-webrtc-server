@@ -1,9 +1,9 @@
 {
-  "name": "rcn-webrtc-server",
+  "name": "live-stream-webrtc-server",
   "version": "1.0.0",
   "description": "Fork of react-native-webrtc server",
   "main": "app.js",
-  "author": "Nhan Cao",
+  "author": "Sieu Thai",
   "engines": {
     "node": "v7.4.0"
   },
