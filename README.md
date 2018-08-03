@@ -1,10 +1,10 @@
 # nc-rcn-webrtc-server
 
-The client: (private)
+The client: https://github.com/sieuhuflit/react-native-live-stream-webrtc-example
 
-Demo page: https://nc-rct-webrtc-server.herokuapp.com/
+Demo page: http://live-stream-webrtc-server.herokuapp.com
 
 # Get started
-1. `yarn`
-2. `yarn start`
-# live-stream-webrtc-server
+
+1.  `npm install`
+2.  `node app.js`
